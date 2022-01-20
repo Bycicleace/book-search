@@ -16,10 +16,12 @@ const startServer = async () => {
 
   await server.start();
 
-  server.applyMiddleware(app);
+  server.applyMiddleware({ app });
 
   console.log(`GraphQL endpoint ==> http://localhost:${PORT}${server.graphqlPath}`);
 }
+
+startServer();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
