@@ -32,8 +32,6 @@ const resolvers = {
             return({ token, user });
         },
         saveBook: async (parent, { data }, context) => {
-            console.log("Save attempted");
-            console.log(data);
             try {
                 if (await context.data.user){
                     console.log(context.data.user);
@@ -48,8 +46,19 @@ const resolvers = {
                 console.error(e);
             }
         },
-        removeBook: async (parent, args) => {
-
+        removeBook: async (parent, { bookId }, context) => {
+            try {
+                if (await context.data.user) {
+                    const updatedUser = await User.findOneAndUpdate(
+                        { _id: context.data.user._id },
+                        { $pull: { savedBooks: { bookId: bookId } } },
+                        { new: true}
+                    );
+                    return updatedUser;
+                }
+            } catch (e) {
+                console.error(e);
+            }
         }
     }
 };
