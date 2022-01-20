@@ -26,8 +26,14 @@ const resolvers = {
             const token = signToken(user);
             return { token, user }
         },
-        addUser: async (parent, args) => {
-            return null;
+        addUser: async (parent, body) => {
+            const user = await User.create({
+                username: body.username,
+                email: body.email,
+                password: body.password
+            });
+            const token = signToken(user);
+            return({ token, user });
         },
         saveBook: async (parent, args) => {
             return null;
