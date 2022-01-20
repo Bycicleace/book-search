@@ -27,16 +27,26 @@ const resolvers = {
             return { token, user }
         },
         addUser: async (parent, body) => {
-            const user = await User.create({
-                username: body.username,
-                email: body.email,
-                password: body.password
-            });
+            const user = await User.create(body);
             const token = signToken(user);
             return({ token, user });
         },
-        saveBook: async (parent, args) => {
-            return null;
+        saveBook: async (parent, { data }, context) => {
+            console.log("Save attempted");
+            console.log(data);
+            try {
+                if (await context.data.user){
+                    console.log(context.data.user);
+                    const updatedUser = User.findOneAndUpdate(
+                        { _id: context.data.user._id },
+                        { $addToSet: { savedBooks: data } },
+                        { new: true, runValidators: true }
+                    );
+                    return updatedUser;
+                }
+            } catch (e) {
+                console.error(e);
+            }
         },
         removeBook: async (parent, args) => {
 
