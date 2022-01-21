@@ -31,7 +31,8 @@ const resolvers = {
             const token = signToken(user);
             return({ token, user });
         },
-        saveBook: async (parent, { bookData }, context) => {
+        saveBook: async (parent, bookData, context) => {
+            console.log(bookData);
             try {
                 if (await context.data.user){
                     console.log(context.data.user);

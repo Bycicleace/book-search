@@ -24,6 +24,7 @@ const typeDefs = gql`
         user: User
     }
 
+    # I couldn't get the calls to work with this, so had to abandon.
     input BookData {
         bookId: String!
         title: String!
@@ -39,7 +40,13 @@ const typeDefs = gql`
     type Mutation {
         login(email: String!, password: String!): Auth
         addUser(username: String!, email: String!, password: String!): Auth
-        saveBook(bookData: BookData!): User
+        saveBook(
+            bookId: String!
+            title: String!
+            description: String!
+            authors: [String]
+            image: String
+        ): User
         removeBook(bookId: String!): User
         removeUser(_id: String!): User # For development
     }
