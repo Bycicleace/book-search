@@ -39,11 +39,7 @@ const SignupForm = () => {
         }
       })
 
-      console.log(data.data);
-
       const token = data?.data?.addUser?.token || '';
-
-      console.log(token);
       
       if (error) {
         console.error(error);

@@ -28,7 +28,6 @@ const LoginForm = () => {
 
     // Login here. Make sure to keep Auth.login(token)
     try {
-      console.log(userFormData.email, userFormData.password);
       const { data } = await loginUser({
         variables: {
           email: userFormData.email,
@@ -36,7 +35,6 @@ const LoginForm = () => {
         }
       });
       const token = data?.login?.token || ''
-      console.log(token);
 
       if (error) {
         console.error(error);
