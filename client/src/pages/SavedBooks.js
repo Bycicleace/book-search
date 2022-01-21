@@ -28,7 +28,6 @@ const SavedBooks = () => {
         variables: { bookId }
       });
       removeBookId(bookId);
-      console.log(`removed book: ${bookId}`);
     } catch (e) {
       console.error(e);
     }

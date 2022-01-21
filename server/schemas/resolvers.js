@@ -32,10 +32,8 @@ const resolvers = {
             return({ token, user });
         },
         saveBook: async (parent, { bookData }, context) => {
-            console.log(bookData);
             try {
                 if (await context.data.user){
-                    console.log(context.data.user);
                     const updatedUser = User.findOneAndUpdate(
                         { _id: context.data.user._id },
                         { $addToSet: { savedBooks: bookData } },
