@@ -59,6 +59,19 @@ const resolvers = {
             } catch (e) {
                 console.error(e);
             }
+        },
+        removeUser: async (parent, { _id }, context) => { // For development
+            try {
+                if (await context.data.user) {
+                    const deletedUser = await User.findOneAndDelete(
+                        { _id: _id},
+                        { new: false }
+                    );
+                    return deletedUser;
+                }
+            } catch (e) {
+                console.error(e);
+            }
         }
     }
 };
