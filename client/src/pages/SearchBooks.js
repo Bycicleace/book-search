@@ -69,13 +69,13 @@ const SearchBooks = () => {
       const data = bookToSave;
       console.log(data);
       const response = await saveBook({
-        variables: {
+        variables: { bookData: {
           bookId: bookToSave.bookId,
           title: bookToSave.title,
           description: bookToSave.description,
           authors: bookToSave.authors,
           image: bookToSave.image
-        }
+        } }
       })
 
       console.log(response);
