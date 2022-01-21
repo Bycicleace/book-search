@@ -1,16 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
-import { deleteBook } from '../utils/API';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
+import { REMOVE_BOOK } from '../utils/mutations';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
+  // Define getMe
   const { loading, data } = useQuery(GET_ME, {
     variables: { username: Auth.getProfile().data.username }
   });
+  // Define removeBook
+  const [removeBook, { error }] = useMutation(REMOVE_BOOK);
+
+  if (error) {
+    console.error(error);
+  }
+
+  // Set userData from getMe query
   const userData = data?.me || {};
+
+
+  const handleDeleteBook = (bookId) => {
+    try {
+      removeBook({
+        variables: { bookId }
+      });
+      removeBookId(bookId);
+      console.log(`removed book: ${bookId}`);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   /*
   // use this to determine if `useEffect()` hook needs to run again
@@ -95,7 +117,7 @@ const SavedBooks = () => {
                   <Card.Title>{book.title}</Card.Title>
                   <p className='small'>Authors: {book.authors}</p>
                   <Card.Text>{book.description}</Card.Text>
-                  <Button className='btn-block btn-danger' onClick={() => /*handleDeleteBook(book.bookId)*/ console.log("clicked!")}>
+                  <Button className='btn-block btn-danger' onClick={() => handleDeleteBook(book.bookId)}>
                     Delete this Book!
                   </Button>
                 </Card.Body>
