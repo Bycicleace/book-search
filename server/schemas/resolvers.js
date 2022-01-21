@@ -31,13 +31,13 @@ const resolvers = {
             const token = signToken(user);
             return({ token, user });
         },
-        saveBook: async (parent, { data }, context) => {
+        saveBook: async (parent, { bookData }, context) => {
             try {
                 if (await context.data.user){
                     console.log(context.data.user);
                     const updatedUser = User.findOneAndUpdate(
                         { _id: context.data.user._id },
-                        { $addToSet: { savedBooks: data } },
+                        { $addToSet: { savedBooks: bookData } },
                         { new: true, runValidators: true }
                     );
                     return updatedUser;
